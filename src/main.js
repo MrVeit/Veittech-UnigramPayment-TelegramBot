@@ -38,7 +38,7 @@ bot.on('successful_payment', (message) =>
 
     console.log(`[${timeUtility.timestamp}] Successful payment:`, paymentInfo);
 
-    axios.post(`${process.env.SERVER_DOMAIN}/api/process-payment`, paymentInfo)
+    axios.post(`${process.env.SERVER_DOMAIN}/api/payment/process`, paymentInfo)
         .then(response => 
         {
             console.log(`[${timeUtility.timestamp}] Payment info sent to server:`, response.data);
@@ -54,11 +54,11 @@ bot.on('pre_checkout_query', async (query) =>
     const preCheckoutQueryId = query.id;
     
     await bot.answerPreCheckoutQuery(preCheckoutQueryId, true)
-        .then(() => console.log(`[${timeUtility.timestamp}] Transaction status has been successfully received: ${query.order_info} from: ${query.from}`))
+        .then(() => console.log(`[${timeUtility.timestamp}] Transaction status has been successfully received: ${query.invoice_payload} from: ${query.from.username}`))
         .catch((errorMessage) => console.error(`[${timeUtility.timestamp}] Error answering PreCheckoutQuery callback with message:`, errorMessage));
 });
 
 server.listen(port, () => 
 {
-    console.log(`[${timeUtility.timestamp}] Server running at port: ${port}`);
+    console.log(`[${timeUtility.timestamp}] Bot running at port: ${port}`);
 });
