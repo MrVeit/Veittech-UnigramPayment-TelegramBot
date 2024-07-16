@@ -1,6 +1,6 @@
 IMAGE_NAME = unigram-payment_telegram-bot
 CONTAINER_NAME = unigram-payment_telegram-bot
-PORT=5000
+PORT = 5000
 
 build:
 	docker build -t $(IMAGE_NAME) .
@@ -11,7 +11,7 @@ run: build
 stop:
 	docker stop $(CONTAINER_NAME) || true
 
-restart: stop run
+restart: clean run
 
 clean: stop
 	docker rm $(CONTAINER_NAME) || true
