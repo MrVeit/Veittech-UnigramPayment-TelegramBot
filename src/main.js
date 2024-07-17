@@ -5,6 +5,7 @@ const express = require('express');
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api');
 const path = require('path');
+const crypto = require('crypto-js');
 
 require('dotenv').config();
 
@@ -38,7 +39,17 @@ bot.on('successful_payment', (message) =>
 
     console.log(`[${timeUtility.timestamp}] Successful payment:`, paymentInfo);
 
-    axios.post(`${process.env.SERVER_DOMAIN}/api/payment/process`, paymentInfo)
+    const encryptedToken = crypto.AES.encrypt(
+        process.env.BOT_TOKEN, process.env.AUTHORIZATION_SECRET_KEY);
+
+    axios.post(`${process.env.SERVER_DOMAIN}/api/payment/order-receipt`, paymentInfo,
+        { 
+            headers: 
+            { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${encryptedToken}`
+            }
+        })
         .then(response => 
         {
             console.log(`[${timeUtility.timestamp}] Payment info sent to server:`, response.data);
