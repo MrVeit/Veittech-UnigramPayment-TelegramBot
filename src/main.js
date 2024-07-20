@@ -3,15 +3,17 @@ const timeUtility = require('./timeUtils');
 
 const express = require('express');
 const axios = require('axios');
-const TelegramBot = require('node-telegram-bot-api');
 const path = require('path');
 const crypto = require('crypto-js');
+
+const TelegramBot = require('node-telegram-bot-api');
 
 require('dotenv').config();
 
 const server = express();
-const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 const port = process.env.PORT || 5000;
+
+const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 server.use(express.static(path.join(__dirname, 'TelegramBot-UnigramPayment')));
 server.use(express.json());
@@ -42,7 +44,7 @@ bot.on('successful_payment', (message) =>
     const encryptedToken = crypto.AES.encrypt(
         process.env.BOT_TOKEN, process.env.AUTHORIZATION_SECRET_KEY);
 
-    axios.post(`${process.env.SERVER_DOMAIN}/api/payment/order-receipt`, paymentInfo,
+    axios.post(`${process.env.SERVER_DOMAIN}/api/payment/update-order-receipt`, paymentInfo,
         { 
             headers: 
             { 
