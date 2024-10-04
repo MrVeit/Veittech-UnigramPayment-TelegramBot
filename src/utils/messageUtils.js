@@ -1,5 +1,5 @@
-const messageTemplates = require('./messageTemplates');
-const timeUtility = require('./timeUtils');
+const messageTemplates = require('../messageTemplates');
+const time = require('./timeUtils');
 
 function generateUserData(message) 
 {
@@ -19,15 +19,22 @@ function sendStartMessage(bot, userData)
 {
     let replyMarkup = messageTemplates.getStartMessageButtons();
 
-    sendMessageWithInlineButtons(bot, userData.userId, messageTemplates.getStartMessage(userData.names), replyMarkup);
+    sendMessageWithInlineButtons(bot, userData.userId, 
+        messageTemplates.getStartMessage(userData.names), replyMarkup);
 
-    console.log(`[${timeUtility.timestamp}] Sended start message for user: ${userData.names}`);
+    console.log(`[${time.getCurrentTimestamp()}] Sended start message for user: ${userData.names}`);
 }
 
 function sendMessageWithInlineButtons(bot, chatId, text, replyMarkup) 
 {
-    bot.sendMessage(chatId, text, { reply_markup: replyMarkup })
-        .catch(error => console.error(`[${timeUtility.timestamp}] Failed to send message: ${error}`));
+    bot.sendMessage(chatId, text,
+    {
+        reply_markup: replyMarkup 
+    })
+    .catch(error =>
+    {
+        console.error(`[${time.getCurrentTimestamp()}] Failed to send message: ${error}`)
+    });
 }
 
 module.exports = 

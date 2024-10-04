@@ -2,7 +2,8 @@ const projectConsts = require('./projectConsts');
 
 function getStartMessage(userName) 
 {
-    return `Good day, ${userName} 😎\n\nHere you can test the Unigram Payment library, which allows you to make payments via Telegram Stars, inside web applications made on Unity!`;
+    return `Good day, ${userName} 😎\n\nHere you can test the Unigram Payment library, ` +
+    `which allows you to make payments via Telegram Stars, inside web applications made on Unity!`;
 }
 
 function getStartMessageButtons() 
