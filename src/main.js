@@ -1,5 +1,5 @@
-const messageUtils = require('./messageUtils');
-const timeUtility = require('./timeUtils');
+const messageUtils = require('./utils/messageUtils');
+const time = require('./utils/timeUtils');
 
 const express = require('express');
 const axios = require('axios');
@@ -32,34 +32,34 @@ bot.onText(/\/start(?:\s+(.+))?/i, (message, match) =>
 
 bot.on('polling_error', (error) => 
 {
-    console.log(`[${timeUtility.timestamp}] Failed to contact with bot, polling error:`, error.code, error.message);
+    console.log(`[${time.getCurrentTimestamp()}] Failed to contact with bot, polling error:`, error.code, error.message);
 });
 
 bot.on('successful_payment', (message) => 
 {
     const paymentInfo = message.successful_payment;
 
-    console.log(`[${timeUtility.timestamp}] Successful payment:`, paymentInfo);
+    console.log(`[${time.getCurrentTimestamp()}] Successful payment:`, paymentInfo);
 
     const encryptedToken = crypto.AES.encrypt(
         process.env.BOT_TOKEN, process.env.AUTHORIZATION_SECRET_KEY);
 
     axios.post(`${process.env.SERVER_DOMAIN}/api/payment/update-order-receipt`, paymentInfo,
+    { 
+        headers: 
         { 
-            headers: 
-            { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${encryptedToken}`
-            }
-        })
-        .then(response => 
-        {
-            console.log(`[${timeUtility.timestamp}] Payment info sent to server:`, response.data);
-        })
-        .catch(error => 
-        {
-            console.error(`[${timeUtility.timestamp}] Error sending payment info to server:`, error);
-        });
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${encryptedToken}`
+        }
+    })
+    .then(response => 
+    {
+        console.log(`[${time.getCurrentTimestamp()}] Payment info sent to server:`, response.data);
+    })
+    .catch(error => 
+    {
+        console.error(`[${time.getCurrentTimestamp()}] Error sending payment info to server:`, error);
+    });
 });
 
 bot.on('pre_checkout_query', async (query) => 
@@ -67,11 +67,17 @@ bot.on('pre_checkout_query', async (query) =>
     const preCheckoutQueryId = query.id;
     
     await bot.answerPreCheckoutQuery(preCheckoutQueryId, true)
-        .then(() => console.log(`[${timeUtility.timestamp}] Transaction status has been successfully received: ${query.invoice_payload} from: ${query.from.username}`))
-        .catch((errorMessage) => console.error(`[${timeUtility.timestamp}] Error answering PreCheckoutQuery callback with message:`, errorMessage));
+        .then(() => 
+        {
+            console.log(`[${time.getCurrentTimestamp()}] Transaction status has been successfully received: ${query.invoice_payload} from: ${query.from.username}`)
+        })
+        .catch((errorMessage) =>
+        {
+            console.error(`[${time.getCurrentTimestamp()}] Error answering PreCheckoutQuery callback with message:`, errorMessage)
+        });
 });
 
 server.listen(port, () => 
 {
-    console.log(`[${timeUtility.timestamp}] Bot running at port: ${port}`);
+    console.log(`[${time.getCurrentTimestamp()}] Unigram Payment Bot running at port: ${port}`);
 });

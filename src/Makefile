@@ -1,6 +1,8 @@
-IMAGE_NAME = unigram-payment_telegram-bot
-CONTAINER_NAME = unigram-payment_telegram-bot
+IMAGE_NAME = unigram-payment_telegram-bot:${VERSION}
+CONTAINER_NAME = unigram-payment_telegram-bot_container
+
 PORT = 5000
+VERSION = 1.0.2
 
 build:
 	docker build -t $(IMAGE_NAME) .
@@ -25,6 +27,6 @@ help:
 	@echo " make build - Build the Docker image"
 	@echo " make run - Start the Docker container"
 	@echo " make stop - Stopping the Docker container."
-	@echo " make restart - Restart the Docker container" @echo " make restart - Restart the Docker container"
+	@echo " make restart - Restart the Docker container"
 	@echo " make logs - View the Docker container logs"
 	@echo " make clean - Deleting the Docker image"
