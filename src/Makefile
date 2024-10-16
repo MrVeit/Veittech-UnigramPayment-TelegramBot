@@ -2,7 +2,7 @@ IMAGE_NAME = unigram-payment_telegram-bot:${VERSION}
 CONTAINER_NAME = unigram-payment_telegram-bot_container
 
 PORT = 5000
-VERSION = 1.0.2
+VERSION = 1.0.3
 
 build:
 	docker build -t $(IMAGE_NAME) .
