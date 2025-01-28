@@ -1,7 +1,5 @@
 const projectConsts = require('../utils/projectConsts');
 
-require('dotenv').config();
-
 function getStartActions() 
 {
     return {

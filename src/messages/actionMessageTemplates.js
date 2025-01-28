@@ -1,14 +1,14 @@
 function getStartMessage(userName) 
 {
-    return `Good day, ${userName} 😎\n\nHere you can test the Unigram Payment library, ` +
-    `which allows you to make payments via Telegram Stars, inside web applications made on Unity!`;
+    return `Good day, ${userName} 😎\n\nHere you can test the <b>Unigram Payment library</b>, ` +
+    `which allows you <b>to make payments via Telegram Stars</b>, inside web applications made on Unity!`;
 }
 
 function getSuccessPurchaseMessage(
     username, payloadId, starsAmount)
 {
-    return `Wow, ${username}, u have successfully `+
-        `purchased the item ${payloadId} for ${starsAmount}🌟`;
+    return `${username}, wow, u have successfully `+
+        `purchased the item <b>${payloadId}</b> for ${starsAmount}🌟`;
 }
 
 module.exports =
