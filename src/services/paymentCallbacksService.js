@@ -33,7 +33,7 @@ function validateSuccessPurchase(bot, message, options, paymentInfo)
 
     addNewPurchase(paymentInfo);
 
-    sendMessage(bot, userId, callbackMessage, options);
+    sendMessage(bot, userData.chatId, callbackMessage, options);
 }
 
 module.exports =
